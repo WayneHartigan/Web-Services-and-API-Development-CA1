@@ -32,18 +32,23 @@ public class TCPCalculator_Client {
             BufferedReader userEntry = new BufferedReader(new InputStreamReader(System.in));
             String equation = null;
             String response = null;
+            System.out.println("Hello welcome to my TCP Calulator!");
+            System.out.println("Type 'stop' at anytime to end the programme and connection!");
+            System.out.println("Spaces do not matter!");
+            System.out.println("Formating is (num/operator/num) opertators(+, -, *, /)");
             do{
-                System.out.println("Type 'stop' to end programme!");
                 System.out.println("Enter the equation you would like to use: ");
                 equation = userEntry.readLine();
                 out.println(equation);
                 
                 response = in.readLine();
-                if (response.contains("Wrong Operator please try again")){
-                    System.out.println(response);
-                }
-                else{
-                    System.out.println("\n<SERVER> Your answer is " + response);
+                if (!response.equals("stop")){
+                    if (response.contains("Wrong Operator")){
+                        System.out.println(response);
+                    }
+                    else{
+                        System.out.println("\n<SERVER> Your answer is " + response);
+                    }
                 }
             }
             while(!equation.toLowerCase().equals("stop"));

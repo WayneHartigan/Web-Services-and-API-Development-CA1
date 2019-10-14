@@ -71,13 +71,20 @@ public class TCPCalculator_Server {
                     answer = number_1/number_2;
                 }
                 else{
-                    out.println("Wrong Operator please try again");
+                    if (!equation_string.toLowerCase().contains("stop")){
+                        out.println("Wrong Operator please try again");
+                    }    
                 }
                 String answer_string = Integer.toString(answer);
                 answer = 0;
                 number_1 = 0;
                 number_2 = 0;
-                out.println(answer_string);
+                if (!equation_string.toLowerCase().contains("stop")){
+                    out.println(answer_string);
+                }
+                else{
+                    out.println("stop");
+                }
             }while(!equation_string.toLowerCase().equals("stop"));
         }
         catch(IOException e){
@@ -87,7 +94,7 @@ public class TCPCalculator_Server {
             try{
                 System.out.println("\n *Closing Connection..*");
                 link.close();
-                System.exit(1);
+                System.exit(0);
             }
             catch(IOException e){
                 System.out.println("Unable to disconnect!");
