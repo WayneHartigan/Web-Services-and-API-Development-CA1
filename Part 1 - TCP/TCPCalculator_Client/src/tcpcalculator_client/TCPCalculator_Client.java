@@ -28,37 +28,25 @@ public class TCPCalculator_Client {
         try{
             link = new Socket(host, PORT);
             BufferedReader in = new BufferedReader(new InputStreamReader(link.getInputStream()));
-
             PrintWriter out = new PrintWriter(link.getOutputStream(),true);
-            
             BufferedReader userEntry = new BufferedReader(new InputStreamReader(System.in));
-            String num1 = null;
-            String operator = null;
-            String num2 = null;
+            String equation = null;
             String response = null;
-            String again = null;
             do{
-                System.out.println("Enter first number: ");
-                num1 = userEntry.readLine();
-                out.println(num1);
-                
-                System.out.println("Enter operator (+, -, *, /) : ");
-                operator = userEntry.readLine();
-                out.println(operator);
-                
-                System.out.println("Enter second number: ");
-                num2 = userEntry.readLine();
-                out.println(num1);
+                System.out.println("Type 'stop' to end programme!");
+                System.out.println("Enter the equation you would like to use: ");
+                equation = userEntry.readLine();
+                out.println(equation);
                 
                 response = in.readLine();
-                System.out.println("\n<SERVER> Your answer is " + response);
-                
-                System.out.println("Would you like to try again? (Y/n)");
-                again = userEntry.readLine();
-                out.println(again);
-                
+                if (response.contains("Wrong Operator please try again")){
+                    System.out.println(response);
+                }
+                else{
+                    System.out.println("\n<SERVER> Your answer is " + response);
+                }
             }
-            while((!again.equals("N")) || (!again.equals("n")));
+            while(!equation.toLowerCase().equals("stop"));
         }
         catch(IOException e){
             e.printStackTrace();

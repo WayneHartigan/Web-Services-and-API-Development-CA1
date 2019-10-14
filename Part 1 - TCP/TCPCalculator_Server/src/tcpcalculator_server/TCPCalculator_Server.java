@@ -34,48 +34,60 @@ public class TCPCalculator_Server {
         
         try{
             link = servSock.accept();
-            BufferedReader in = new BufferedReader(new InputStreamReader(link.getInputStream()));
-            PrintWriter out = new PrintWriter(link.getOutputStream(),true);
-            String num1_string = in.readLine();
-            String operator = in.readLine();            
-            String num2_string = in.readLine();
-            String again = in.readLine();
-            
-            System.out.println(num1_string);
-            System.out.println(num2_string);
-
-            
-            int num1 = Integer.parseInt(num1_string);
-            int num2 = Integer.parseInt(num2_string);
-            int answer = 0;
-            
-            while((!again.equals("N")) || (!again.equals("n"))){
-                if (operator.equals("+")){
-                    answer = num1 + num2;
+            String equation_string = null;
+            String equation_string_raw = null;
+            do{
+                BufferedReader in = new BufferedReader(new InputStreamReader(link.getInputStream()));
+                PrintWriter out = new PrintWriter(link.getOutputStream(),true);
+                equation_string_raw = in.readLine(); 
+                equation_string = equation_string_raw.replaceAll("\\s","");
+                
+                int answer = 0;
+                int number_1 = 0;
+                int number_2 = 0;
+                
+                if (equation_string.contains("+")){
+                    String[] numbers = equation_string.split("\\+");
+                    number_1 = Integer.parseInt(numbers[0]);
+                    number_2 = Integer.parseInt(numbers[1]);
+                    answer = number_1 + number_2;
                 }
-                else if (operator.equals("-")){
-                    answer = num1 - num2;
+                else if (equation_string.contains("-")){
+                    String[] numbers = equation_string.split("\\-");
+                    number_1 = Integer.parseInt(numbers[0]);
+                    number_2 = Integer.parseInt(numbers[1]);
+                    answer = number_1 - number_2;
                 }
-                else if (operator.equals("*")){
-                    answer = num1 * num2;
+                else if (equation_string.contains("*")){
+                    String[] numbers = equation_string.split("\\*");
+                    number_1 = Integer.parseInt(numbers[0]);
+                    number_2 = Integer.parseInt(numbers[1]);
+                    answer = number_1 * number_2;
                 }
-                else if (operator.equals("/")){
-                    answer = num1/num2;
+                else if (equation_string.contains("/")){
+                    String[] numbers = equation_string.split("\\/");
+                    number_1 = Integer.parseInt(numbers[0]);
+                    number_2 = Integer.parseInt(numbers[1]);
+                    answer = number_1/number_2;
                 }
                 else{
                     out.println("Wrong Operator please try again");
                 }
                 String answer_string = Integer.toString(answer);
+                answer = 0;
+                number_1 = 0;
+                number_2 = 0;
                 out.println(answer_string);
-            }
+            }while(!equation_string.toLowerCase().equals("stop"));
         }
         catch(IOException e){
             e.printStackTrace();
         }
         finally{
             try{
-                System.out.println("\n *Closing COnnection..*");
+                System.out.println("\n *Closing Connection..*");
                 link.close();
+                System.exit(1);
             }
             catch(IOException e){
                 System.out.println("Unable to disconnect!");
