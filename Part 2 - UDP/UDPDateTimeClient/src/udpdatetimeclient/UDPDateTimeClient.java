@@ -38,25 +38,36 @@ public class UDPDateTimeClient {
             BufferedReader userEntry = new BufferedReader(new InputStreamReader(System.in));
             String dot = null;
             String response = null;
+            Boolean correct = false;
             
-            System.out.println("Please enter DATE to return today's date or"
-                    + " Time to return the current time");
-            dot = userEntry.readLine();
+            while(correct==false){
+                
+                System.out.println("Please enter DATE to return today's date or"
+                        + " Time to return the current time");
+                dot = userEntry.readLine();
 
-            outPacket = new DatagramPacket(dot.getBytes(),dot.length(), host, PORT);
-            dgramSocket.send(outPacket);
+                outPacket = new DatagramPacket(dot.getBytes(),dot.length(), host, PORT);
+                dgramSocket.send(outPacket);
 
-            buffer = new byte[256];
-            inPacket = new DatagramPacket(buffer, buffer.length);
-            dgramSocket.receive(inPacket);
-            response = new String(inPacket.getData(), 0, inPacket.getLength());
-            System.out.println(response);
+                buffer = new byte[256];
+                inPacket = new DatagramPacket(buffer, buffer.length);
+                dgramSocket.receive(inPacket);
+                response = new String(inPacket.getData(), 0, inPacket.getLength());
+                System.out.println(response);
+                if (!response.equals("Sorry wrong input please try again!")){
+                    correct = true;
+                }
+                else{
+                    correct = false;
+                }
+            }
         }
         catch(IOException e){
             e.printStackTrace();
         }
         finally{
-            System.out.println("Closing Connection");
+            System.out.println("Thank you for using my UDP Date/Time Display!");
+            System.out.println("Creator: Wayne Hartigan (x16348136)!");
             dgramSocket.close();
         }
     }
