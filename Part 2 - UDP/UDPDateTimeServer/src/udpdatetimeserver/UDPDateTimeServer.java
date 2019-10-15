@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package udpdatetimeserver;
 
 /**
- *
- * @author hartigan
+ * 
+ * @author Wayne Hartigan (x16348136)
  */
 
 import java.io.*;
@@ -50,8 +45,7 @@ public class UDPDateTimeServer {
                 
                 InetAddress clientAddress = inPacket.getAddress();
                 int clientPort = inPacket.getPort();
-            
-            
+                
                 String message = messageIn.replaceAll("\\s+","");
                 
                 if(message.toLowerCase().equals("date")){
